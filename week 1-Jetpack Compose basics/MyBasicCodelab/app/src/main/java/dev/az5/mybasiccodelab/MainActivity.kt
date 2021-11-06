@@ -18,9 +18,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyBasicCodelabTheme {
-                Greeting("Android")
+                MyApp()
             }
         }
+    }
+}
+
+@Composable
+fun MyApp() {
+    Surface(color = MaterialTheme.colors.background) {
+        Greeting("Android")
     }
 }
 
