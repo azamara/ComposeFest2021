@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LayoutsCodelabTheme {
-                ScrollingList()
+                LayoutsCodelab()
             }
         }
     }
@@ -55,7 +55,7 @@ fun LayoutsCodelab() {
             )
         }
     ) { innerPadding ->
-        BodyContent(Modifier.padding(innerPadding).padding(8.dp))
+        BodyContent(Modifier.padding(innerPadding))
     }
 }
 
@@ -67,13 +67,20 @@ val topics = listOf(
 
 @Composable
 fun BodyContent(modifier: Modifier = Modifier) {
-    Row(modifier = modifier.horizontalScroll(rememberScrollState())) {
-        StaggeredGrid {
-            for (topic in topics) {
-                Chip(modifier = Modifier.padding(8.dp), text = topic)
+    Row(
+        modifier = modifier
+        .background(color = Color.LightGray)
+        .padding(16.dp)
+        .size(200.dp)
+        .horizontalScroll(rememberScrollState()),
+        content = {
+            StaggeredGrid {
+                for (topic in topics) {
+                    Chip(modifier = Modifier.padding(8.dp), text = topic)
+                }
             }
         }
-    }
+    )
 }
 
 @Composable
@@ -128,11 +135,8 @@ fun StaggeredGrid(
         content = content
     ) { measurables, constraints ->
         val rowWidths = IntArray(rows) { 0 }
-
         val rowHeights = IntArray(rows) { 0 }
-
         val placeables = measurables.mapIndexed { index, measurable ->
-
             val placeable = measurable.measure(constraints)
 
             val row = index % rows
@@ -143,14 +147,13 @@ fun StaggeredGrid(
         }
         val width = rowWidths.maxOrNull()
             ?.coerceIn(constraints.minWidth.rangeTo(constraints.maxWidth)) ?: constraints.minWidth
-
         val height = rowHeights.sumOf { it }
             .coerceIn(constraints.minHeight.rangeTo(constraints.maxHeight))
-
         val rowY = IntArray(rows) { 0 }
         for (i in 1 until rows) {
-            rowY[i] = rowY[i-1] + rowHeights[i-1]
+            rowY[i] = rowY[i - 1] + rowHeights[i - 1]
         }
+
         layout(width, height) {
             val rowX = IntArray(rows) { 0 }
 
@@ -178,13 +181,15 @@ fun Chip(modifier: Modifier = Modifier, text: String) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
-                modifier = Modifier.size(16.dp, 16.dp)
+                modifier = Modifier
+                    .size(16.dp, 16.dp)
                     .background(color = MaterialTheme.colors.secondary)
             )
             Spacer(Modifier.width(4.dp))
             Text(text = text)
         }
     }
+
 }
 
 @Preview
