@@ -6,7 +6,7 @@ import androidx.compose.material.Shapes
 import androidx.compose.ui.unit.dp
 
 val JetnewsShapes = Shapes(
-        small = CutCornerShape(topStart = 8.dp),
-        medium = CutCornerShape(topStart = 24.dp),
-        large = RoundedCornerShape(8.dp)
+    small = CutCornerShape(topStart = 8.dp),
+    medium = CutCornerShape(topStart = 24.dp),
+    large = RoundedCornerShape(8.dp)
 )

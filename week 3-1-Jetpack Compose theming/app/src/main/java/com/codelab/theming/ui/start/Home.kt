@@ -25,12 +25,15 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -96,7 +99,7 @@ fun Header(
     Surface(
         color = MaterialTheme.colors.onSurface.copy(alpha = 0.1f),
         contentColor = MaterialTheme.colors.primary,
-        modifier = modifier
+        modifier = modifier.semantics { heading() }
     ) {
         Text(
             text = text,
@@ -137,6 +140,7 @@ fun FeaturedPost(
             )
             Text(
                 text = post.metadata.author.name,
+                style = MaterialTheme.typography.body2,
                 modifier = padding
             )
             PostMetadata(post, padding)
@@ -169,10 +173,13 @@ private fun PostMetadata(
             }
         }
     }
-    Text(
-        text = text,
-        modifier = modifier
-    )
+    CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.body2,
+            modifier = modifier
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -205,8 +212,10 @@ fun PostItem(
 @Composable
 private fun PostItemPreview() {
     val post = remember { PostRepo.getFeaturedPost() }
-    Surface {
-        PostItem(post = post)
+    JetnewsTheme {
+        Surface {
+            PostItem(post = post)
+        }
     }
 }
 
