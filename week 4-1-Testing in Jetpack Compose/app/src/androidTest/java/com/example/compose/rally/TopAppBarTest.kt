@@ -1,5 +1,6 @@
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
+import com.example.compose.rally.RallyApp
 import com.example.compose.rally.RallyScreen
 import com.example.compose.rally.ui.components.RallyTopAppBar
 import org.junit.Rule
@@ -59,5 +60,17 @@ class TopAppBarTest {
                 useUnmergedTree = true
             )
             .assertExists()
+    }
+
+    @Test
+    fun rallyTopAppBarTest_changesSelection() {
+        composeTestRule.setContent {
+            RallyApp()
+        }
+
+        composeTestRule.onNodeWithContentDescription("Accounts").performClick().assertIsSelected()
+        composeTestRule.onNodeWithContentDescription("Bills").performClick().assertIsSelected()
+        composeTestRule.onNodeWithContentDescription("Overview").performClick().assertIsSelected()
+
     }
 }
